@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   root 'ideas#index'
-  resources :ideas, only: %i[new create show]
+  resources :ideas, except: %i[index]
 end
