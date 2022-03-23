@@ -11,6 +11,29 @@
   </head>
 
   <body>
-    <%= yield %>
+
+    <%= tag.header class: %w( header ) do %>
+      <%= tag.nav class: %w( navbar navbar-expand bg-light ) do %>
+        <%= link_to "IdeaFactory", root_path, class: "navbar-brand" %>
+        <%= content_tag :ul, class: "navbar-nav" do %>
+          <%= content_tag :li, class: "nav-item" do %>
+            <%= link_to "Home", root_path, class: "nav-link" %>
+          <% end %>
+          <%= content_tag :li, class: "nav-item" do %>
+            <%= link_to "New Idea", new_idea_path, class: "nav-link" %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% flash.each do |type, message| %>
+      <div class="alert alert-primary" role="alert">
+        <%= message %>
+      </div>
+    <% end %>
+    
+    <%= tag.main class: %w( main container.fluid ) do %>
+      <%= yield %>
+    <% end %>
+
   </body>
 </html>
