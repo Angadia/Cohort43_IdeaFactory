@@ -3,10 +3,11 @@
           <div class="card">
             <div class="card-body">
               <div class="card-title">
-                <h5><%= link_to idea.title, idea_path(idea) %></h5>
+                <h5><%= link_to idea.title, idea_path(idea.id) %></h5>
               </div>
               <div class="card-text">
                 <%= idea.description %><br>
+                <small class="text-muted">By <%= idea.user&.full_name || "DELETED" %></small>
               </div>
             </div>
           </div>
