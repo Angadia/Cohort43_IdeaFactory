@@ -40,5 +40,9 @@ class Ability
     can :crud, Idea do |idea|
       idea.user == user # current_user
     end
+
+    can(:destroy, Review) do |review|
+      review.user == user # current_user
+    end
   end
 end

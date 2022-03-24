@@ -4,13 +4,41 @@
             <div class="card-text">
               <%= @idea.description %><br>
               <small class="text-muted">By <%= @idea.user&.full_name || "DELETED" %> | 
-              Posted <%= time_ago_in_words(@idea.updated_at) %> ago</small>
+              Posted <%= time_ago_in_words @idea.updated_at %> ago</small>
             </div>
+
             <% if can? :edit, @idea %>
               <%= button_to "Edit", edit_idea_path(@idea), method: :get, class: "btn btn-outline-primary btn-md" %>
             <% end %>
             <% if can? :destroy, @idea %>
               <%= button_to "Delete", idea_path(@idea), method: :delete, class: "btn btn-outline-primary btn-md" %>
             <% end %>
+
+            <%= form_with(model: [@idea, @review]) do |form| %>
+              <div class="form_group">
+                <h4><%= form.label :review, for: :body %></h4>
+                <%= form.text_area :body, cols: 50, rows: 3, placeholder: "What's on your mind?", minLenght: 1, required: :required, class: "form-control" %>
+              </div>
+              <%= form.submit "Submit", class: "btn btn-outline-primary btn-lg" %>
+            <% end %>
+
+            <%= tag.reviews class: "reviews-list" do %>
+              <% @idea.reviews.each do |review| %>
+                <div class="card border-0">
+                  <div class="card-body">
+                    <div class="card-text">
+                      <%= review.body %><br>
+                        <small class="text-muted">By <%= review.user&.full_name || "DELETED" %> | 
+                        Posted <%= time_ago_in_words review.created_at %> ago
+                        <% if can? :destroy, review %>
+                          •
+                          <%= button_to "Delete", idea_review_path(@idea, review), method: :delete, class: "card-link" %>
+                        <% end %></small>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+
           </div>
         </div>
