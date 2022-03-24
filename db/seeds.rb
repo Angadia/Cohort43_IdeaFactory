@@ -8,15 +8,17 @@
 
 PASSWORD = '123'
 
+Like.destroy_all
 Review.destroy_all
 Idea.destroy_all
 User.destroy_all
 
+ActiveRecord::Base.connection.reset_pk_sequence!(:likes)
 ActiveRecord::Base.connection.reset_pk_sequence!(:reviews)
 ActiveRecord::Base.connection.reset_pk_sequence!(:ideas)
 ActiveRecord::Base.connection.reset_pk_sequence!(:users)
 
-5.times do |n|
+10.times do |n|
   User.create(
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
@@ -41,6 +43,7 @@ puts Cowsay.say("Users email are #{(users.map(&:email)).join(', ')}", :kitty)
   )
 
   if i.persisted?
+    i.likers = users.without(user).shuffle.slice(0, rand(users.count - 1))
     i.reviews = rand(0..5).times.map do
       user = users.sample
       Review.new(
@@ -57,3 +60,4 @@ end
 
 puts Cowsay.say("Generated #{Idea.count} ideas using Faker.", :frogs)
 puts Cowsay.say("Generated #{Review.count} reviews using Faker.", :tux)
+puts Cowsay.say("Generated #{Like.count} likes.", :sheep)

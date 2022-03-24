@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   root 'ideas#index'
   resources :ideas, except: %i[index] do
     resources :reviews, only: %i[create destroy]
+    resources :likes, shallow: true, only: %i[create destroy]
   end
 
   resources :users, only: %i[new create edit update]
