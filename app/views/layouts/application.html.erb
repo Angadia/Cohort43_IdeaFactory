@@ -22,7 +22,7 @@
               <%= link_to current_user.full_name, edit_user_path(current_user), class: "nav-link" %>
             <% end %>
             <%= content_tag :li, class: "nav-item" do %>
-              <%= link_to "Sign Out", session_path, data: { turbo_method: :delete }, class: "nav-link" %>
+              <%= button_to "Sign Out", session_path, method: :delete, class: "nav-link" %>
             <% end %>
           <% else %>
             <%= content_tag :li, class: "nav-item" do %>
