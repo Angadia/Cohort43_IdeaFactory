@@ -32,7 +32,7 @@
                         Posted <%= time_ago_in_words review.created_at %> ago
                         <% if can? :destroy, review %>
                           •
-                          <%= button_to "Delete", idea_review_path(@idea, review), method: :delete, class: "card-link" %>
+                          <%= button_to "Delete", review_path(review), method: :delete, class: "card-link" %>
                         <% end %></small>
                     </div>
                   </div>
