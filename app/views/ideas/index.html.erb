@@ -1,0 +1,25 @@
+      <%= tag.ideas class: %w( ideas card-deck ) do %>
+        <% @ideas.each do |idea| %>
+          <div class="card">
+            <div class="card-body">
+              <div class="card-title">
+                <h5><%= link_to idea.title, idea_path(idea.id) %></h5>
+              </div>
+              <div class="card-text">
+                <%= idea.description %><br>
+                <small class="text-muted">By <%= idea.user&.full_name || "DELETED" %> • <%= pluralize(idea.likes.count, "like") %></small>
+
+                <% if user_signed_in? %>
+                  <% like = idea.likes.find_by(user: current_user) %>
+                  <% if like.present? && can?(:destroy, like) %>
+                    <%= button_to "Liked", like_path(like), method: :delete, class: "btn btn-outline-primary btn-md" %>
+                  <% elsif can?(:like, idea) %>
+                    <%= button_to "Like", idea_likes_path(idea), method: :post, class: "btn btn-outline-primary btn-md" %>
+                  <% end %>
+                <% end %>
+
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
